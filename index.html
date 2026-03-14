@@ -56,27 +56,38 @@
 <body>
   <div class="container">
     <h1>Privacy Policy</h1>
-    <p class="updated">Last updated: February 25, 2026</p>
+    <p class="updated">Last updated: March 14, 2026</p>
 
     <p>Solara: Daily Ritual ("Solara", "we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our mobile application.</p>
 
     <h2>Information We Collect</h2>
+
     <p><strong>Data stored locally on your device:</strong></p>
     <ul>
-      <li>Language preference and app settings</li>
+      <li>Language preference and app settings (sound, reminders, selected voice)</li>
+      <li>Onboarding completion status</li>
+    </ul>
+    <p>These device-level settings are never transmitted to any server.</p>
+
+    <p><strong>Data stored locally and synced to the cloud when you sign in:</strong></p>
+    <ul>
       <li>Daily ritual records (emotion check-ins, gratitude entries)</li>
       <li>Streak and usage statistics</li>
-      <li>Saved affirmations</li>
+      <li>Saved and custom affirmations</li>
+      <li>AI-generated affirmations</li>
       <li>Goal selections</li>
+      <li>Intention statement</li>
+      <li>Meditation session records (type, duration, date)</li>
+      <li>Credit balance and transaction history</li>
     </ul>
-    <p>In the current version, all data is stored locally on your device using encrypted local storage. We do not transmit this data to any server.</p>
+    <p>All user data is stored locally on your device first (offline-first architecture). When you sign in with Google, this data is synced to secure cloud storage for backup and cross-device access.</p>
 
-    <p><strong>Data collected when you sign in (future update):</strong></p>
+    <p><strong>Data collected when you sign in:</strong></p>
     <ul>
-      <li>Email address (via Google Sign-in or Apple ID)</li>
-      <li>Display name</li>
-      <li>Your ritual data will be synced to secure cloud storage for backup purposes</li>
+      <li>Email address (via Google Sign-in)</li>
+      <li>Display name and profile photo (from your Google account)</li>
     </ul>
+    <p>When you sign out, all user-specific local data is cleared from the device. Device-level settings (language, sound, reminders) are retained.</p>
 
     <h2>How We Use Your Information</h2>
     <ul>
@@ -84,29 +95,32 @@
       <li>To track your streak and display progress statistics</li>
       <li>To generate AI-powered personalized affirmations (when using paid features)</li>
       <li>To sync your data across devices (when signed in)</li>
+      <li>To record and display your meditation session history</li>
+      <li>To process in-app credit purchases</li>
     </ul>
 
     <h2>Data Sharing</h2>
-    <p>We do not sell, trade, or share your personal data with third parties. Your ritual entries, emotions, and gratitude journals are yours alone.</p>
+    <p>We do not sell, trade, or share your personal data with third parties. Your ritual entries, emotions, gratitude journals, intentions, and meditation records are yours alone.</p>
     <p>We may use anonymized, aggregated data to improve our app experience. This data cannot be used to identify you.</p>
 
     <h2>Third-Party Services</h2>
-    <p>Solara may use the following third-party services in future updates:</p>
+    <p>Solara uses the following third-party services:</p>
     <ul>
-      <li><strong>Google Sign-in / Apple ID</strong> — for authentication only</li>
-      <li><strong>Supabase</strong> — for secure cloud data storage and sync</li>
-      <li><strong>Google Play Billing</strong> — for in-app credit purchases</li>
-      <li><strong>Anthropic (Claude AI)</strong> — for generating personalized affirmations (no personal data is sent; only your selected goals and anonymized emotion data)</li>
+      <li><strong>Google Sign-in</strong> — for authentication only</li>
+      <li><strong>Supabase</strong> — for secure cloud data storage, authentication, and sync. All data is protected by strict access controls, ensuring only you can access your own data</li>
+      <li><strong>RevenueCat + Google Play Billing</strong> — for in-app credit purchases. Purchase verification happens server-side</li>
+      <li><strong>Anthropic (Claude AI) / OpenAI</strong> — for generating personalized affirmations. No personal data is sent to the AI; only your selected goal categories and anonymized context are used</li>
+      <li><strong>ElevenLabs</strong> — for pre-generated voice audio files. No user data is sent to ElevenLabs; all voice files are pre-generated and stored on our servers</li>
     </ul>
 
     <h2>Data Security</h2>
-    <p>We take reasonable measures to protect your data. Local data is stored in encrypted storage on your device. Cloud data (in future updates) will be protected by row-level security, ensuring only you can access your own data.</p>
+    <p>We take reasonable measures to protect your data. Local data is stored in encrypted storage on your device. Cloud data is protected by Supabase strict access controls, ensuring only authenticated users can access their own data. Credit transactions and purchases are verified server-side to prevent tampering.</p>
 
     <h2>Children's Privacy</h2>
     <p>Solara is not intended for children under the age of 13. We do not knowingly collect personal information from children under 13.</p>
 
     <h2>Data Deletion</h2>
-    <p>You can delete all your local data by uninstalling the app. For cloud data (in future updates), you may request data deletion by contacting us at the email below.</p>
+    <p>You can delete your local data by signing out (which clears all user-specific data from the device) or by uninstalling the app. To delete your cloud data, you may request account deletion by contacting us at the email below. Upon request, we will delete all your data from our servers within 30 days.</p>
 
     <h2>Changes to This Policy</h2>
     <p>We may update this Privacy Policy from time to time. Changes will be reflected by updating the "Last updated" date at the top of this page.</p>
