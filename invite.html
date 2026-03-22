@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Solara: Daily Ritual</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+    body {
+      min-height: 100vh;
+      background: #0A0A1A;
+      color: #F0EDE6;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 32px;
+      text-align: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .nebula { position:absolute; border-radius:50%; pointer-events:none; animation:nd 18s ease-in-out infinite alternate; }
+    .n1 { width:380px; height:380px; background:radial-gradient(circle,rgba(74,58,255,0.13) 0%,transparent 70%); top:-100px; left:-80px; }
+    .n2 { width:260px; height:260px; background:radial-gradient(circle,rgba(201,168,76,0.09) 0%,transparent 70%); bottom:0; right:-50px; animation-delay:-9s; }
+    canvas { position:absolute; top:0; left:0; pointer-events:none; }
+    .wrap { position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; }
+
+    /* logo */
+    .logo-wrap { animation:ri 1s ease-out 0.1s both; }
+    .star-svg { display:block; margin:0 auto 14px; animation:spin 14s linear infinite; filter:drop-shadow(0 0 5px rgba(201,168,76,0.65)); }
+    .brand { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:500; letter-spacing:12px; color:#C9A84C; text-transform:uppercase; }
+    .sub { font-size:10px; letter-spacing:5px; color:#5A5A6E; margin-top:6px; text-transform:uppercase; }
+    .divider { width:48px; height:1px; background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4),transparent); margin:20px auto; }
+
+    /* panels */
+    .panel { display:none; flex-direction:column; align-items:center; gap:10px; animation:ri 0.9s ease-out 0.4s both; }
+
+    /* redirect text */
+    .redirect-txt { font-size:12px; color:#8A8A9E; line-height:1.8; }
+    .redirect-txt .zh { display:block; }
+    .redirect-txt .en { display:block; color:#5A5A6E; font-size:11px; }
+
+    /* store button */
+    .btn-store {
+      display:inline-flex; align-items:center; gap:10px;
+      padding:13px 28px; border-radius:10px;
+      border:1px solid #C9A84C; background:rgba(201,168,76,0.08);
+      color:#C9A84C; font-size:14px; font-family:'Inter',sans-serif;
+      text-decoration:none; margin-top:6px;
+      transition:background 0.2s, transform 0.2s;
+    }
+    .btn-store:hover { background:rgba(201,168,76,0.18); transform:scale(1.02); }
+    .btn-store .zh { display:block; font-size:14px; }
+    .btn-store .en { display:block; font-size:11px; color:rgba(201,168,76,0.6); margin-top:1px; }
+
+    /* dim button (coming soon) */
+    .btn-dim {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:11px 22px; border-radius:10px;
+      border:1px solid rgba(90,90,110,0.5);
+      color:#5A5A6E; font-size:13px; font-family:'Inter',sans-serif;
+      text-decoration:none;
+    }
+
+    /* iOS coming soon */
+    .ios-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:5px 14px; border-radius:20px;
+      background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3);
+      font-size:11px; letter-spacing:2px; color:#C9A84C; text-transform:uppercase;
+    }
+    .ios-badge::before { content:''; width:6px; height:6px; border-radius:50%; background:#C9A84C; animation:bp 2s ease-in-out infinite; display:inline-block; }
+    .ios-head { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:400; color:#F0EDE6; line-height:1.4; }
+    .ios-head em { font-style:italic; color:#E8D48B; }
+    .moon-row { display:flex; gap:10px; align-items:center; opacity:0.45; font-size:18px; }
+    .moon-row span { animation:mf 4s ease-in-out infinite alternate; }
+    .moon-row span:nth-child(2) { animation-delay:-1.5s; font-size:13px; }
+    .moon-row span:nth-child(3) { animation-delay:-3s; font-size:9px; }
+    .ios-body { font-size:13px; color:#8A8A9E; line-height:1.9; }
+    .ios-body .en { color:#5A5A6E; font-size:12px; }
+    .android-hint { margin-top:4px; font-size:11px; color:#5A5A6E; line-height:1.8; }
+    .android-hint a { color:#8A8A9E; text-underline-offset:3px; }
+
+    /* desktop */
+    .desktop-row { display:flex; gap:12px; margin-top:6px; flex-wrap:wrap; justify-content:center; }
+    .desktop-hint { font-size:12px; color:#8A8A9E; line-height:1.8; }
+    .desktop-hint .en { color:#5A5A6E; font-size:11px; }
+
+    @keyframes ri   { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    @keyframes nd   { from{transform:translate(0,0) scale(1)} to{transform:translate(18px,12px) scale(1.05)} }
+    @keyframes bp   { 0%,100%{opacity:.4;transform:scale(.85)} 50%{opacity:1;transform:scale(1.2)} }
+    @keyframes mf   { from{transform:translateY(0)} to{transform:translateY(-5px)} }
+  </style>
+</head>
+<body>
+
+<div class="nebula n1"></div>
+<div class="nebula n2"></div>
+<canvas id="sc"></canvas>
+
+<div class="wrap">
+
+  <!-- Logo -->
+  <div class="logo-wrap">
+    <svg class="star-svg" width="28" height="28" viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 2 L15.4 12.6 L26 14 L15.4 15.4 L14 26 L12.6 15.4 L2 14 L12.6 12.6 Z" fill="#C9A84C"/>
+    </svg>
+    <div class="brand">S O L A R A</div>
+    <div class="sub">Daily Ritual</div>
+    <div class="divider"></div>
+  </div>
+
+  <!-- Android / App Store redirect panel -->
+  <div class="panel" id="p-android">
+    <div class="redirect-txt">
+      <span class="zh">正在前往应用商店 <span id="dots"></span></span>
+      <span class="en">Redirecting to store…</span>
+    </div>
+    <a class="btn-store" id="store-btn" href="https://play.google.com/store/apps/details?id=com.solararitual.solara">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" id="store-icon">
+        <path d="M3.18 23.76a2.04 2.04 0 0 0 2.28-.26L14.92 14 5.44 4.5a2.04 2.04 0 0 0-2.26-.26C2.43 4.7 2 5.48 2 6.38v11.24c0 .9.43 1.68 1.18 2.14zM16.42 12l2.53-2.53-10.6-6.12 8.07 8.65zm2.53 2.53L16.42 12l-8.07 8.65 10.6-6.12zM20.82 10.28l-1.47-.85-2.24 2.24 2.24 2.24 1.5-.87A2.04 2.04 0 0 0 22 12c0-.77-.43-1.43-1.18-1.72z"/>
+      </svg>
+      <span>
+        <span class="zh" id="store-label-zh">在 Google Play 下载</span>
+        <span class="en" id="store-label-en">Download on Google Play</span>
+      </span>
+    </a>
+  </div>
+
+  <!-- iOS Coming Soon panel -->
+  <div class="panel" id="p-ios" style="max-width:280px; gap:14px;">
+    <div class="ios-badge">Coming Soon</div>
+    <div class="ios-head">
+      iOS 版本<br><em>即将到来</em>
+    </div>
+    <div class="moon-row"><span>🌙</span><span>✦</span><span>✧</span></div>
+    <div class="ios-body">
+      <span class="zh">我们正在为 iPhone 用户精心打磨<br>每一处细节。敬请期待。</span><br>
+      <span class="en">We're crafting every detail<br>for iPhone. Stay tuned.</span>
+    </div>
+    <div class="android-hint">
+      <span class="zh">Android 用户请 <a href="https://play.google.com/store/apps/details?id=com.solararitual.solara">前往 Google Play</a></span><br>
+      <span style="font-size:11px;color:#3A3A4E;">Android users: <a href="https://play.google.com/store/apps/details?id=com.solararitual.solara" style="color:#5A5A6E;">Google Play</a></span>
+    </div>
+  </div>
+
+  <!-- Desktop fallback panel -->
+  <div class="panel" id="p-desktop" style="gap:14px;">
+    <div class="desktop-hint">
+      <span class="zh">在手机上扫描或访问此链接下载</span><br>
+      <span class="en">Scan or visit this link on your phone</span>
+    </div>
+    <div class="desktop-row">
+      <a class="btn-store" href="https://play.google.com/store/apps/details?id=com.solararitual.solara">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76a2.04 2.04 0 0 0 2.28-.26L14.92 14 5.44 4.5a2.04 2.04 0 0 0-2.26-.26C2.43 4.7 2 5.48 2 6.38v11.24c0 .9.43 1.68 1.18 2.14zM16.42 12l2.53-2.53-10.6-6.12 8.07 8.65zm2.53 2.53L16.42 12l-8.07 8.65 10.6-6.12zM20.82 10.28l-1.47-.85-2.24 2.24 2.24 2.24 1.5-.87A2.04 2.04 0 0 0 22 12c0-.77-.43-1.43-1.18-1.72z"/></svg>
+        <span>
+          <span class="zh">Google Play</span>
+          <span class="en">Google Play</span>
+        </span>
+      </a>
+      <div class="btn-dim">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.15-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04l-.07.28zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        iOS — Coming Soon
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   ★ EDIT HERE WHEN iOS IS READY ★
+   ═══════════════════════════════════════ */
+var CONFIG = {
+  googlePlayUrl: 'https://play.google.com/store/apps/details?id=com.solararitual.solara',
+  appStoreUrl:   '',      // ← Paste App Store URL here
+  iosReady:      false    // ← Set true when iOS is live
+};
+/* ═══════════════════════════════════════ */
+
+var ua = navigator.userAgent || '';
+var isIOS     = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+var isAndroid = /android/i.test(ua);
+
+function show(id) { var e = document.getElementById(id); if (e) e.style.display = 'flex'; }
+
+if (isIOS && CONFIG.iosReady && CONFIG.appStoreUrl) {
+  // iOS + live → swap to App Store
+  document.getElementById('store-btn').href = CONFIG.appStoreUrl;
+  document.getElementById('store-label-zh').textContent = '在 App Store 下载';
+  document.getElementById('store-label-en').textContent = 'Download on App Store';
+  document.getElementById('store-icon').innerHTML = '<path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98l-.09.06c-.22.15-2.18 1.27-2.16 3.8.03 3.02 2.65 4.03 2.68 4.04l-.07.28zM13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>';
+  show('p-android');
+  setTimeout(function () { window.location.href = CONFIG.appStoreUrl; }, 1200);
+} else if (isIOS) {
+  show('p-ios');
+} else if (isAndroid) {
+  show('p-android');
+  setTimeout(function () { window.location.href = CONFIG.googlePlayUrl; }, 1200);
+} else {
+  show('p-desktop');
+}
+
+// Dots animation
+var d = 0;
+setInterval(function () {
+  var e = document.getElementById('dots');
+  if (e) { d = (d + 1) % 4; e.textContent = '.'.repeat(d); }
+}, 400);
+
+// Starfield
+(function () {
+  var c = document.getElementById('sc'), ctx = c.getContext('2d'), W, H, stars = [];
+  function resize() {
+    W = c.width  = document.body.scrollWidth  || window.innerWidth;
+    H = c.height = document.body.scrollHeight || window.innerHeight;
+  }
+  function init() {
+    stars = [];
+    var n = Math.floor(W * H / 5500);
+    for (var i = 0; i < n; i++) stars.push({
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.3+0.3,
+      a: Math.random()*0.55+0.1,
+      da: (Math.random()-0.5)*0.003,
+      dx: (Math.random()-0.5)*0.05,
+      dy: (Math.random()-0.5)*0.04
+    });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(function (s) {
+      s.a += s.da; if (s.a > 0.65 || s.a < 0.08) s.da *= -1;
+      s.x += s.dx; s.y += s.dy;
+      if (s.x < 0) s.x = W; if (s.x > W) s.x = 0;
+      if (s.y < 0) s.y = H; if (s.y > H) s.y = 0;
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(240,237,230,' + s.a + ')'; ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  resize(); init(); draw();
+  window.addEventListener('resize', function () { resize(); init(); });
+})();
+</script>
+</body>
+</html>
