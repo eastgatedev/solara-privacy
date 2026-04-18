@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ParkSaver — 6 Design Variants</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: #1a1a24;
+  color: #e8eef8;
+  padding: 48px 24px 80px;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══════════════════════════════════════════════
+   PAGE HEADER & LAYOUT
+═══════════════════════════════════════════════ */
+
+.doc-header {
+  max-width: 1400px;
+  margin: 0 auto 40px;
+  text-align: center;
+}
+.doc-title {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.8px;
+  color: #fafafa;
+  margin-bottom: 8px;
+}
+.doc-sub {
+  font-size: 12px;
+  color: #94a3b8;
+  line-height: 1.7;
+}
+.doc-sub strong { color: #FCD34D; font-weight: 600; }
+
+.row-label {
+  max-width: 1400px;
+  margin: 48px auto 20px;
+  padding: 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.row-label-text {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #e2e8f0;
+}
+.row-label-line {
+  flex: 1;
+  height: 0.5px;
+  background: linear-gradient(90deg, rgba(255,255,255,0.2), transparent);
+}
+
+.row {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  max-width: 1400px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.variant-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 310px;
+}
+
+.variant-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.variant-letter {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #FCD34D;
+  line-height: 1;
+}
+.variant-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  letter-spacing: 0.5px;
+}
+
+/* ═══════════════════════════════════════════════
+   SHARED PHONE BASE
+═══════════════════════════════════════════════ */
+
+.phone {
+  width: 310px;
+  border-radius: 44px;
+  overflow: hidden;
+  position: relative;
+}
+.phone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  mix-blend-mode: overlay;
+}
+.p-content { position: relative; z-index: 2; }
+
+.sb { display: flex; justify-content: space-between; align-items: center; padding: 14px 26px 0; position: relative; z-index: 3; }
+.sbt { font-size: 11px; font-weight: 600; letter-spacing: -0.2px; font-variant-numeric: tabular-nums; }
+
+.scr { padding: 0 16px; position: relative; z-index: 2; }
+
+.hd { display: flex; justify-content: space-between; align-items: center; padding: 14px 4px 20px; }
+.logo { font-size: 19px; font-weight: 700; letter-spacing: -0.6px; }
+.logo span { font-weight: 800; }
+
+.avt {
+  width: 38px; height: 38px; border-radius: 50%;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.3px;
+  position: relative;
+}
+.avt::before {
+  content: '';
+  position: absolute;
+  top: 2px; left: 10%; right: 10%; height: 40%;
+  border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+  pointer-events: none;
+}
+
+.hero { position: relative; padding: 4px 4px 22px; margin-bottom: 18px; }
+.hl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.8px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.hl::before { content: ''; width: 4px; height: 4px; border-radius: 50%; }
+
+.hero-num-row { display: flex; align-items: baseline; gap: 6px; margin-bottom: 10px; }
+.hero-rm { font-size: 22px; font-weight: 600; letter-spacing: -0.3px; }
+.hn { font-size: 68px; font-weight: 800; letter-spacing: -4px; line-height: 0.9; font-variant-numeric: tabular-nums; }
+
+.hs { font-size: 12px; font-variant-numeric: tabular-nums; display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+.hs-dot { width: 3px; height: 3px; border-radius: 50%; }
+
+.today-token {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px 8px 10px;
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border-radius: 100px;
+  position: relative; overflow: hidden;
+}
+.today-token::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; right: 20%;
+  height: 1px;
+}
+.today-plus {
+  font-size: 11px; font-weight: 800;
+  width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.today-amt { font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.2px; }
+.today-label { font-size: 11px; font-weight: 500; }
+
+.sl { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.8px; margin: 0 4px 10px; }
+
+.cd {
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border-radius: 20px; padding: 16px 18px; margin-bottom: 14px; position: relative;
+}
+.cd::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+}
+
+.rw { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; }
+.rl { font-size: 12px; font-weight: 400; }
+.rv { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.2px; }
+
+.ai {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 14px; border-radius: 18px; margin-bottom: 9px;
+  position: relative; overflow: hidden;
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+}
+.ai::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+}
+
+.aic {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative; overflow: hidden;
+}
+.aic::before {
+  content: '';
+  position: absolute;
+  top: 4px; left: 6px;
+  width: 10px; height: 6px;
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+.at-title { font-size: 13px; font-weight: 600; letter-spacing: -0.2px; }
+.at-sub { font-size: 11px; margin-top: 2px; font-weight: 400; }
+.at-sub .save { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.atm { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.4px; padding-right: 2px; }
+
+.cmp { display: flex; gap: 9px; margin-top: 14px; margin-bottom: 14px; }
+.cm-no {
+  flex: 1; border-radius: 16px; padding: 12px 10px 13px; text-align: center;
+  border: 0.5px dashed;
+}
+.cml-no { font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.cma-no {
+  font-size: 18px; font-weight: 700; text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  font-variant-numeric: tabular-nums; letter-spacing: -0.5px;
+}
+
+.cm-ok {
+  flex: 1; border-radius: 16px; padding: 12px 10px 13px; text-align: center;
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  position: relative; overflow: hidden;
+}
+.cm-ok::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+}
+.cml-ok { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.cma-ok { font-size: 20px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: -0.6px; }
+
+.bn {
+  margin: 0 16px 14px;
+  backdrop-filter: blur(60px) saturate(200%);
+  -webkit-backdrop-filter: blur(60px) saturate(200%);
+  border-radius: 100px;
+  padding: 10px 8px;
+  display: flex; justify-content: space-around; align-items: center;
+  position: relative;
+}
+.bn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+}
+.bn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 100px;
+  pointer-events: none;
+}
+.ni {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 4px 12px; border-radius: 20px; position: relative; z-index: 1;
+}
+.ni-act { backdrop-filter: blur(10px); }
+.ni-lbl-act { font-size: 9px; font-weight: 700; letter-spacing: 0.3px; margin-top: 2px; }
+.ni-lbl-off { font-size: 9px; font-weight: 500; letter-spacing: 0.3px; margin-top: 2px; }
+
+
+/* ═══════════════════════════════════════════════
+   VARIANT A — LIGHT · INDIGO NIGHT
+═══════════════════════════════════════════════ */
+.phone-a {
+  background:
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgba(129, 140, 248, 0.25), transparent 55%),
+    radial-gradient(ellipse 70% 60% at 0% 100%, rgba(99, 102, 241, 0.18), transparent 55%),
+    radial-gradient(ellipse 40% 30% at 20% 10%, rgba(252, 211, 77, 0.08), transparent 60%),
+    linear-gradient(170deg, #FAF8FF 0%, #F3F0FF 50%, #EDE9FE 100%);
+  border: 1.5px solid rgba(129, 140, 248, 0.25);
+  box-shadow: 0 40px 80px rgba(79, 70, 229, 0.15), 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(79, 70, 229, 0.08);
+}
+.phone-a::before {
+  background-image: radial-gradient(circle at 1px 1px, rgba(79,70,229,0.015) 0.5px, transparent 0);
+  background-size: 3px 3px;
+}
+.phone-a .sbt { color: rgba(30, 27, 75, 0.9); }
+.phone-a .logo { color: #1e1b4b; }
+.phone-a .logo span { color: #4338CA; }
+.phone-a .avt {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(237, 233, 254, 0.7) 100%);
+  border: 0.5px solid rgba(79, 70, 229, 0.25);
+  color: #4338CA;
+  box-shadow: 0 4px 16px rgba(79, 70, 229, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-a .avt::before { background: linear-gradient(180deg, rgba(255,255,255,0.8), transparent); }
+.phone-a .hl { color: #6b7280; }
+.phone-a .hl::before { background: #D97706; box-shadow: 0 0 8px rgba(217, 119, 6, 0.5); }
+.phone-a .hero-rm { color: #B45309; }
+.phone-a .hn { color: #B45309; text-shadow: 0 2px 12px rgba(217, 119, 6, 0.2); }
+.phone-a .hs { color: #6b7280; }
+.phone-a .hs-dot { background: #9ca3af; }
+.phone-a .today-token {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.95) 0%, rgba(253, 230, 138, 0.7) 100%);
+  border: 0.5px solid rgba(217, 119, 6, 0.25);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-a .today-token::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent); }
+.phone-a .today-plus { color: #B45309; background: rgba(217, 119, 6, 0.15); border: 0.5px solid rgba(217, 119, 6, 0.3); }
+.phone-a .today-amt { color: #92400e; }
+.phone-a .today-label { color: #B45309; }
+.phone-a .sl { color: #9ca3af; }
+.phone-a .cd {
+  background: rgba(255, 255, 255, 0.75);
+  border: 0.5px solid rgba(79, 70, 229, 0.12);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.08), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+}
+.phone-a .cd::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent); }
+.phone-a .rw + .rw { border-top: 0.5px solid rgba(79, 70, 229, 0.08); }
+.phone-a .rl { color: #6b7280; }
+.phone-a .rv { color: #1e1b4b; }
+.phone-a .ai1 {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.9) 0%, rgba(253, 230, 138, 0.55) 100%);
+  border: 0.5px solid rgba(217, 119, 6, 0.3);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.1), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+}
+.phone-a .ai1::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent); }
+.phone-a .ai2 {
+  background: linear-gradient(135deg, rgba(237, 233, 254, 0.9) 0%, rgba(221, 214, 254, 0.55) 100%);
+  border: 0.5px solid rgba(129, 140, 248, 0.3);
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.08), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+}
+.phone-a .ai2::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent); }
+.phone-a .aic1 {
+  background: radial-gradient(circle at 30% 25%, rgba(255,245,200,0.95), rgba(252,211,77,0.85) 50%, rgba(217,119,6,0.9) 100%);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3), inset 0 1.5px 2px rgba(255,255,255,0.7), inset 0 -1px 2px rgba(120,53,15,0.3);
+}
+.phone-a .aic1::before { background: rgba(255, 255, 255, 0.75); }
+.phone-a .aic2 {
+  background: radial-gradient(circle at 30% 25%, rgba(237,233,254,0.95), rgba(165,180,252,0.85) 50%, rgba(79,70,229,0.9) 100%);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3), inset 0 1.5px 2px rgba(255,255,255,0.7), inset 0 -1px 2px rgba(49,46,129,0.3);
+}
+.phone-a .aic2::before { background: rgba(255, 255, 255, 0.7); }
+.phone-a .at-title { color: #1e1b4b; }
+.phone-a .at-sub { color: #6b7280; }
+.phone-a .at-sub .save { color: #B45309; }
+.phone-a .atm1 { color: #B45309; }
+.phone-a .atm2 { color: #4338CA; }
+.phone-a .cm-no { background: rgba(254, 226, 226, 0.5); border-color: rgba(220, 38, 38, 0.3); }
+.phone-a .cml-no { color: #dc2626; opacity: 0.55; }
+.phone-a .cma-no { color: rgba(220, 38, 38, 0.55); }
+.phone-a .cm-ok {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.95) 0%, rgba(253, 230, 138, 0.6) 100%);
+  border: 0.5px solid rgba(217, 119, 6, 0.35);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-a .cm-ok::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent); }
+.phone-a .cml-ok { color: #B45309; }
+.phone-a .cma-ok { color: #92400e; text-shadow: 0 2px 8px rgba(217, 119, 6, 0.2); }
+.phone-a .bn {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(237, 233, 254, 0.6) 100%);
+  border: 0.5px solid rgba(79, 70, 229, 0.15);
+  box-shadow: 0 12px 36px rgba(79, 70, 229, 0.12), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-a .bn::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent); }
+.phone-a .bn::after {
+  background:
+    radial-gradient(circle at 0% 50%, rgba(217, 119, 6, 0.06), transparent 30%),
+    radial-gradient(circle at 100% 50%, rgba(79, 70, 229, 0.06), transparent 30%);
+}
+.phone-a .ni-act {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.95), rgba(253, 230, 138, 0.7));
+  border: 0.5px solid rgba(217, 119, 6, 0.3);
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-a .ni-lbl-act { color: #92400e; }
+.phone-a .ni-lbl-off { color: #9ca3af; }
+
+
+/* ═══════════════════════════════════════════════
+   VARIANT B — LIGHT · WARM AMBER
+═══════════════════════════════════════════════ */
+.phone-b {
+  background:
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgba(252, 211, 77, 0.3), transparent 55%),
+    radial-gradient(ellipse 70% 60% at 0% 100%, rgba(245, 158, 11, 0.18), transparent 55%),
+    linear-gradient(170deg, #FFFBEB 0%, #FEF3C7 50%, #FDE68A 100%);
+  border: 1.5px solid rgba(217, 119, 6, 0.2);
+  box-shadow: 0 40px 80px rgba(217, 119, 6, 0.18), 0 20px 40px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(217, 119, 6, 0.08);
+}
+.phone-b::before {
+  background-image: radial-gradient(circle at 1px 1px, rgba(217,119,6,0.02) 0.5px, transparent 0);
+  background-size: 3px 3px;
+}
+.phone-b .sbt { color: rgba(120, 53, 15, 0.85); }
+.phone-b .logo { color: #451a03; }
+.phone-b .logo span { color: #4338CA; }
+.phone-b .avt {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(254, 243, 199, 0.7) 100%);
+  border: 0.5px solid rgba(217, 119, 6, 0.25);
+  color: #B45309;
+  box-shadow: 0 4px 16px rgba(217, 119, 6, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-b .avt::before { background: linear-gradient(180deg, rgba(255,255,255,0.8), transparent); }
+.phone-b .hl { color: #78350f; }
+.phone-b .hl::before { background: #D97706; box-shadow: 0 0 8px rgba(217, 119, 6, 0.6); }
+.phone-b .hero-rm { color: #92400e; }
+.phone-b .hn { color: #78350f; text-shadow: 0 2px 16px rgba(217, 119, 6, 0.25); }
+.phone-b .hs { color: #92400e; }
+.phone-b .hs-dot { background: #B45309; }
+.phone-b .today-token {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.3) 0%, rgba(217, 119, 6, 0.15) 100%);
+  border: 0.5px solid rgba(120, 53, 15, 0.3);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+}
+.phone-b .today-token::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent); }
+.phone-b .today-plus { color: #78350f; background: rgba(120, 53, 15, 0.15); border: 0.5px solid rgba(120, 53, 15, 0.3); }
+.phone-b .today-amt { color: #451a03; }
+.phone-b .today-label { color: #78350f; }
+.phone-b .sl { color: #92400e; }
+.phone-b .cd {
+  background: rgba(255, 253, 245, 0.85);
+  border: 0.5px solid rgba(217, 119, 6, 0.15);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.08), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-b .cd::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent); }
+.phone-b .rw + .rw { border-top: 0.5px solid rgba(217, 119, 6, 0.1); }
+.phone-b .rl { color: #92400e; }
+.phone-b .rv { color: #451a03; }
+.phone-b .ai1 {
+  background: linear-gradient(135deg, rgba(254, 215, 170, 0.8) 0%, rgba(251, 191, 36, 0.45) 100%);
+  border: 0.5px solid rgba(194, 65, 12, 0.35);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+}
+.phone-b .ai1::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent); }
+.phone-b .ai2 {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.85) 0%, rgba(253, 230, 138, 0.5) 100%);
+  border: 0.5px solid rgba(180, 83, 9, 0.25);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.1), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+}
+.phone-b .ai2::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent); }
+.phone-b .aic1 {
+  background: radial-gradient(circle at 30% 25%, rgba(255,237,170,0.95), rgba(251,146,60,0.9) 50%, rgba(154,52,18,0.95) 100%);
+  box-shadow: 0 4px 12px rgba(194, 65, 12, 0.4), inset 0 1.5px 2px rgba(255,255,255,0.6), inset 0 -1px 2px rgba(67,20,7,0.4);
+}
+.phone-b .aic1::before { background: rgba(255, 255, 255, 0.7); }
+.phone-b .aic2 {
+  background: radial-gradient(circle at 30% 25%, rgba(255,250,220,0.95), rgba(252,211,77,0.85) 50%, rgba(180,83,9,0.9) 100%);
+  box-shadow: 0 4px 12px rgba(180, 83, 9, 0.3), inset 0 1.5px 2px rgba(255,255,255,0.7), inset 0 -1px 2px rgba(120,53,15,0.3);
+}
+.phone-b .aic2::before { background: rgba(255, 255, 255, 0.75); }
+.phone-b .at-title { color: #451a03; }
+.phone-b .at-sub { color: #92400e; }
+.phone-b .at-sub .save { color: #78350f; }
+.phone-b .atm1 { color: #78350f; }
+.phone-b .atm2 { color: #92400e; }
+.phone-b .cm-no { background: rgba(254, 226, 226, 0.5); border-color: rgba(220, 38, 38, 0.3); }
+.phone-b .cml-no { color: #dc2626; opacity: 0.55; }
+.phone-b .cma-no { color: rgba(220, 38, 38, 0.55); }
+.phone-b .cm-ok {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.35) 0%, rgba(217, 119, 6, 0.18) 100%);
+  border: 0.5px solid rgba(120, 53, 15, 0.35);
+  box-shadow: 0 8px 24px rgba(194, 65, 12, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.85);
+}
+.phone-b .cm-ok::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent); }
+.phone-b .cml-ok { color: #78350f; }
+.phone-b .cma-ok { color: #451a03; text-shadow: 0 2px 8px rgba(194, 65, 12, 0.25); }
+.phone-b .bn {
+  background: linear-gradient(180deg, rgba(255, 253, 245, 0.85) 0%, rgba(254, 243, 199, 0.65) 100%);
+  border: 0.5px solid rgba(217, 119, 6, 0.2);
+  box-shadow: 0 12px 36px rgba(217, 119, 6, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-b .bn::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent); }
+.phone-b .bn::after {
+  background:
+    radial-gradient(circle at 0% 50%, rgba(217, 119, 6, 0.1), transparent 30%),
+    radial-gradient(circle at 100% 50%, rgba(245, 158, 11, 0.08), transparent 30%);
+}
+.phone-b .ni-act {
+  background: linear-gradient(135deg, rgba(251, 191, 36, 0.4), rgba(217, 119, 6, 0.2));
+  border: 0.5px solid rgba(120, 53, 15, 0.35);
+  box-shadow: 0 2px 8px rgba(194, 65, 12, 0.25), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-b .ni-lbl-act { color: #451a03; }
+.phone-b .ni-lbl-off { color: #a16207; opacity: 0.6; }
+
+
+/* ═══════════════════════════════════════════════
+   VARIANT C — LIGHT · MIDNIGHT MONO
+═══════════════════════════════════════════════ */
+.phone-c {
+  background:
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(252, 211, 77, 0.12), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 0% 100%, rgba(0, 0, 0, 0.03), transparent 60%),
+    linear-gradient(170deg, #FAFAFA 0%, #F5F5F5 60%, #EEEEEE 100%);
+  border: 1.5px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15), 0 20px 40px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+.phone-c::before {
+  background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.02) 0.5px, transparent 0);
+  background-size: 3px 3px;
+}
+.phone-c .sbt { color: rgba(23, 23, 23, 0.9); }
+.phone-c .logo { color: #171717; }
+.phone-c .logo span { color: #D97706; }
+.phone-c .avt {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(245, 245, 245, 0.7) 100%);
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  color: #262626;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-c .avt::before { background: linear-gradient(180deg, rgba(255,255,255,0.8), transparent); }
+.phone-c .hl { color: #737373; }
+.phone-c .hl::before { background: #D97706; box-shadow: 0 0 8px rgba(217, 119, 6, 0.5); }
+.phone-c .hero-rm { color: #B45309; }
+.phone-c .hn { color: #B45309; text-shadow: 0 2px 12px rgba(217, 119, 6, 0.15); }
+.phone-c .hs { color: #737373; }
+.phone-c .hs-dot { background: #a3a3a3; }
+.phone-c .today-token {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.95) 0%, rgba(253, 230, 138, 0.7) 100%);
+  border: 0.5px solid rgba(217, 119, 6, 0.3);
+  box-shadow: 0 6px 20px rgba(217, 119, 6, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-c .today-token::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent); }
+.phone-c .today-plus { color: #B45309; background: rgba(217, 119, 6, 0.15); border: 0.5px solid rgba(217, 119, 6, 0.3); }
+.phone-c .today-amt { color: #92400e; }
+.phone-c .today-label { color: #B45309; }
+.phone-c .sl { color: #a3a3a3; }
+.phone-c .cd {
+  background: rgba(255, 255, 255, 0.85);
+  border: 0.5px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-c .cd::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent); }
+.phone-c .rw + .rw { border-top: 0.5px solid rgba(0, 0, 0, 0.06); }
+.phone-c .rl { color: #737373; }
+.phone-c .rv { color: #171717; }
+.phone-c .ai1 {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.85) 0%, rgba(253, 230, 138, 0.5) 100%);
+  border: 0.5px solid rgba(217, 119, 6, 0.3);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.1), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+}
+.phone-c .ai1::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent); }
+.phone-c .ai2 {
+  background: linear-gradient(135deg, rgba(250, 250, 250, 0.9) 0%, rgba(229, 229, 229, 0.6) 100%);
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06), inset 0 0.5px 0 rgba(255, 255, 255, 0.8);
+}
+.phone-c .ai2::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent); }
+.phone-c .aic1 {
+  background: radial-gradient(circle at 30% 25%, rgba(255,245,200,0.95), rgba(252,211,77,0.85) 50%, rgba(217,119,6,0.9) 100%);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3), inset 0 1.5px 2px rgba(255,255,255,0.7), inset 0 -1px 2px rgba(120,53,15,0.3);
+}
+.phone-c .aic1::before { background: rgba(255, 255, 255, 0.75); }
+.phone-c .aic2 {
+  background: radial-gradient(circle at 30% 25%, rgba(250,250,250,0.95), rgba(163,163,163,0.75) 50%, rgba(64,64,64,0.85) 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1.5px 2px rgba(255,255,255,0.6), inset 0 -1px 2px rgba(23,23,23,0.3);
+}
+.phone-c .aic2::before { background: rgba(255, 255, 255, 0.65); }
+.phone-c .at-title { color: #171717; }
+.phone-c .at-sub { color: #737373; }
+.phone-c .at-sub .save { color: #B45309; }
+.phone-c .atm1 { color: #B45309; }
+.phone-c .atm2 { color: #404040; }
+.phone-c .cm-no { background: rgba(254, 226, 226, 0.4); border-color: rgba(220, 38, 38, 0.25); }
+.phone-c .cml-no { color: #dc2626; opacity: 0.5; }
+.phone-c .cma-no { color: rgba(220, 38, 38, 0.5); }
+.phone-c .cm-ok {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.95) 0%, rgba(253, 230, 138, 0.6) 100%);
+  border: 0.5px solid rgba(217, 119, 6, 0.35);
+  box-shadow: 0 8px 24px rgba(217, 119, 6, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-c .cm-ok::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent); }
+.phone-c .cml-ok { color: #B45309; }
+.phone-c .cma-ok { color: #92400e; text-shadow: 0 2px 8px rgba(217, 119, 6, 0.2); }
+.phone-c .bn {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(245, 245, 245, 0.65) 100%);
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.1), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-c .bn::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent); }
+.phone-c .bn::after {
+  background:
+    radial-gradient(circle at 0% 50%, rgba(217, 119, 6, 0.05), transparent 30%),
+    radial-gradient(circle at 100% 50%, rgba(0, 0, 0, 0.03), transparent 30%);
+}
+.phone-c .ni-act {
+  background: linear-gradient(135deg, rgba(254, 243, 199, 0.95), rgba(253, 230, 138, 0.7));
+  border: 0.5px solid rgba(217, 119, 6, 0.3);
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.9);
+}
+.phone-c .ni-lbl-act { color: #92400e; }
+.phone-c .ni-lbl-off { color: #a3a3a3; }
+
+
+/* ═══════════════════════════════════════════════
+   VARIANT D — DARK · INDIGO NIGHT
+═══════════════════════════════════════════════ */
+.phone-d {
+  background:
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgba(99, 102, 241, 0.45), transparent 55%),
+    radial-gradient(ellipse 70% 60% at 0% 100%, rgba(67, 56, 202, 0.35), transparent 55%),
+    linear-gradient(170deg, #1e1b4b 0%, #161339 40%, #0f0d2e 100%);
+  border: 1.5px solid rgba(129, 140, 248, 0.18);
+  box-shadow: 0 60px 120px rgba(0, 0, 0, 0.8), 0 0 200px rgba(129, 140, 248, 0.1);
+}
+.phone-d::before {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.025) 0.5px, transparent 0);
+  background-size: 3px 3px;
+}
+.phone-d .sbt { color: rgba(255,255,255,0.88); }
+.phone-d .logo { color: rgba(255, 255, 255, 0.98); }
+.phone-d .logo span { color: #FCD34D; }
+.phone-d .avt {
+  background: linear-gradient(135deg, rgba(165, 180, 252, 0.25) 0%, rgba(129, 140, 248, 0.1) 100%);
+  border: 0.5px solid rgba(165, 180, 252, 0.3);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 0.5px 0 rgba(255, 255, 255, 0.3);
+}
+.phone-d .avt::before { background: linear-gradient(180deg, rgba(255,255,255,0.35), transparent); }
+.phone-d .hl { color: rgba(255, 255, 255, 0.55); }
+.phone-d .hl::before { background: #A5B4FC; box-shadow: 0 0 8px rgba(165, 180, 252, 0.8); }
+.phone-d .hero-rm { color: rgba(252, 211, 77, 0.75); }
+.phone-d .hn { color: #FDE68A; text-shadow: 0 0 40px rgba(252, 211, 77, 0.35), 0 0 80px rgba(245, 158, 11, 0.2); }
+.phone-d .hs { color: rgba(255, 255, 255, 0.5); }
+.phone-d .hs-dot { background: rgba(255, 255, 255, 0.3); }
+.phone-d .today-token {
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.22) 0%, rgba(245, 158, 11, 0.1) 100%);
+  border: 0.5px solid rgba(252, 211, 77, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.3);
+}
+.phone-d .today-token::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent); }
+.phone-d .today-plus { color: #FCD34D; background: rgba(252, 211, 77, 0.2); border: 0.5px solid rgba(252, 211, 77, 0.4); }
+.phone-d .today-amt { color: #FDE68A; }
+.phone-d .today-label { color: rgba(252, 211, 77, 0.75); }
+.phone-d .sl { color: rgba(255, 255, 255, 0.4); }
+.phone-d .cd {
+  background: rgba(165, 180, 252, 0.05);
+  border: 0.5px solid rgba(165, 180, 252, 0.12);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.15);
+}
+.phone-d .cd::before { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); }
+.phone-d .rw + .rw { border-top: 0.5px solid rgba(255,255,255,0.06); }
+.phone-d .rl { color: rgba(255,255,255,0.6); }
+.phone-d .rv { color: rgba(255, 255, 255, 0.95); }
+.phone-d .ai1 {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.06) 100%);
+  border: 0.5px solid rgba(245, 158, 11, 0.3);
+  box-shadow: 0 12px 32px rgba(245, 158, 11, 0.12), inset 0 0.5px 0 rgba(255, 255, 255, 0.2);
+}
+.phone-d .ai1::before { background: linear-gradient(90deg, transparent, rgba(255, 200, 100, 0.4), transparent); }
+.phone-d .ai2 {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.16) 0%, rgba(99, 102, 241, 0.05) 100%);
+  border: 0.5px solid rgba(129, 140, 248, 0.25);
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.1), inset 0 0.5px 0 rgba(255, 255, 255, 0.15);
+}
+.phone-d .ai2::before { background: linear-gradient(90deg, transparent, rgba(165, 180, 252, 0.4), transparent); }
+.phone-d .aic1 {
+  background: radial-gradient(circle at 30% 25%, rgba(255,220,140,0.6), rgba(245,158,11,0.3) 60%, rgba(180,83,9,0.4) 100%);
+  box-shadow: 0 4px 12px rgba(245,158,11,0.3), inset 0 1px 2px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+.phone-d .aic1::before { background: rgba(255, 255, 255, 0.5); }
+.phone-d .aic2 {
+  background: radial-gradient(circle at 30% 25%, rgba(190, 200, 255, 0.55), rgba(129,140,248,0.3) 60%, rgba(67,56,202,0.4) 100%);
+  box-shadow: 0 4px 12px rgba(99,102,241,0.3), inset 0 1px 2px rgba(255,255,255,0.35), inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+.phone-d .aic2::before { background: rgba(255, 255, 255, 0.45); }
+.phone-d .at-title { color: rgba(255, 255, 255, 0.95); }
+.phone-d .at-sub { color: rgba(255, 255, 255, 0.5); }
+.phone-d .at-sub .save { color: #FDE68A; }
+.phone-d .atm1 { color: #FCD34D; }
+.phone-d .atm2 { color: #A5B4FC; }
+.phone-d .cm-no { background: rgba(220, 38, 38, 0.04); border-color: rgba(220, 38, 38, 0.2); }
+.phone-d .cml-no { color: rgba(220, 38, 38, 0.5); }
+.phone-d .cma-no { color: rgba(220, 38, 38, 0.5); }
+.phone-d .cm-ok {
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.2) 0%, rgba(245, 158, 11, 0.08) 100%);
+  border: 0.5px solid rgba(252, 211, 77, 0.35);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.3);
+}
+.phone-d .cm-ok::before { background: linear-gradient(90deg, transparent, rgba(255, 220, 150, 0.6), transparent); }
+.phone-d .cml-ok { color: rgba(252, 211, 77, 0.75); }
+.phone-d .cma-ok { color: #FDE68A; text-shadow: 0 0 12px rgba(252, 211, 77, 0.4); }
+.phone-d .bn {
+  background: linear-gradient(180deg, rgba(30, 27, 75, 0.4) 0%, rgba(22, 19, 57, 0.55) 100%);
+  border: 0.5px solid rgba(165, 180, 252, 0.18);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), inset 0 0.5px 0 rgba(255, 255, 255, 0.25);
+}
+.phone-d .bn::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent); }
+.phone-d .bn::after {
+  background:
+    radial-gradient(circle at 0% 50%, rgba(165, 180, 252, 0.1), transparent 30%),
+    radial-gradient(circle at 100% 50%, rgba(252, 211, 77, 0.08), transparent 30%);
+}
+.phone-d .ni-act {
+  background: rgba(252, 211, 77, 0.12);
+  border: 0.5px solid rgba(252, 211, 77, 0.25);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.3);
+}
+.phone-d .ni-lbl-act { color: #FDE68A; }
+.phone-d .ni-lbl-off { color: rgba(255, 255, 255, 0.35); }
+
+
+/* ═══════════════════════════════════════════════
+   VARIANT E — DARK · WARM AMBER
+═══════════════════════════════════════════════ */
+.phone-e {
+  background:
+    radial-gradient(ellipse 80% 60% at 100% 0%, rgba(245, 158, 11, 0.38), transparent 55%),
+    radial-gradient(ellipse 60% 50% at 0% 100%, rgba(180, 83, 9, 0.3), transparent 55%),
+    linear-gradient(170deg, #2a1810 0%, #1c1108 40%, #120a05 100%);
+  border: 1.5px solid rgba(245, 158, 11, 0.18);
+  box-shadow: 0 60px 120px rgba(0, 0, 0, 0.8), 0 0 200px rgba(245, 158, 11, 0.1);
+}
+.phone-e::before {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.025) 0.5px, transparent 0);
+  background-size: 3px 3px;
+}
+.phone-e .sbt { color: rgba(255, 235, 200, 0.9); }
+.phone-e .logo { color: rgba(255, 255, 255, 0.98); }
+.phone-e .logo span { color: #A5B4FC; }
+.phone-e .avt {
+  background: linear-gradient(135deg, rgba(253, 230, 138, 0.25) 0%, rgba(245, 158, 11, 0.1) 100%);
+  border: 0.5px solid rgba(252, 211, 77, 0.3);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4), inset 0 0.5px 0 rgba(255, 255, 255, 0.3);
+}
+.phone-e .avt::before { background: linear-gradient(180deg, rgba(255,255,255,0.35), transparent); }
+.phone-e .hl { color: rgba(255, 235, 200, 0.55); }
+.phone-e .hl::before { background: #FCD34D; box-shadow: 0 0 8px rgba(252, 211, 77, 0.8); }
+.phone-e .hero-rm { color: rgba(253, 230, 138, 0.8); }
+.phone-e .hn { color: #FEF3C7; text-shadow: 0 0 40px rgba(252, 211, 77, 0.45), 0 0 80px rgba(245, 158, 11, 0.3); }
+.phone-e .hs { color: rgba(255, 235, 200, 0.5); }
+.phone-e .hs-dot { background: rgba(255, 235, 200, 0.3); }
+.phone-e .today-token {
+  background: linear-gradient(135deg, rgba(253, 230, 138, 0.28) 0%, rgba(245, 158, 11, 0.15) 100%);
+  border: 0.5px solid rgba(252, 211, 77, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.3);
+}
+.phone-e .today-token::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent); }
+.phone-e .today-plus { color: #FCD34D; background: rgba(252, 211, 77, 0.2); border: 0.5px solid rgba(252, 211, 77, 0.4); }
+.phone-e .today-amt { color: #FDE68A; }
+.phone-e .today-label { color: rgba(252, 211, 77, 0.75); }
+.phone-e .sl { color: rgba(255, 235, 200, 0.4); }
+.phone-e .cd {
+  background: rgba(252, 211, 77, 0.04);
+  border: 0.5px solid rgba(252, 211, 77, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.15);
+}
+.phone-e .cd::before { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); }
+.phone-e .rw + .rw { border-top: 0.5px solid rgba(255, 235, 200, 0.06); }
+.phone-e .rl { color: rgba(255, 235, 200, 0.6); }
+.phone-e .rv { color: rgba(255, 255, 255, 0.95); }
+.phone-e .ai1 {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.06) 100%);
+  border: 0.5px solid rgba(245, 158, 11, 0.3);
+  box-shadow: 0 12px 32px rgba(245, 158, 11, 0.12), inset 0 0.5px 0 rgba(255, 255, 255, 0.2);
+}
+.phone-e .ai1::before { background: linear-gradient(90deg, transparent, rgba(255, 200, 100, 0.4), transparent); }
+.phone-e .ai2 {
+  background: linear-gradient(135deg, rgba(253, 230, 138, 0.1) 0%, rgba(252, 211, 77, 0.04) 100%);
+  border: 0.5px solid rgba(253, 230, 138, 0.22);
+  box-shadow: 0 12px 32px rgba(245, 158, 11, 0.06), inset 0 0.5px 0 rgba(255, 255, 255, 0.15);
+}
+.phone-e .ai2::before { background: linear-gradient(90deg, transparent, rgba(253, 230, 138, 0.35), transparent); }
+.phone-e .aic1 {
+  background: radial-gradient(circle at 30% 25%, rgba(255,220,140,0.6), rgba(245,158,11,0.3) 60%, rgba(180,83,9,0.4) 100%);
+  box-shadow: 0 4px 12px rgba(245,158,11,0.3), inset 0 1px 2px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+.phone-e .aic1::before { background: rgba(255, 255, 255, 0.5); }
+.phone-e .aic2 {
+  background: radial-gradient(circle at 30% 25%, rgba(255,240,200,0.6), rgba(252,211,77,0.3) 60%, rgba(180,83,9,0.3) 100%);
+  box-shadow: 0 4px 12px rgba(252,211,77,0.25), inset 0 1px 2px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+.phone-e .aic2::before { background: rgba(255, 255, 255, 0.5); }
+.phone-e .at-title { color: rgba(255, 255, 255, 0.95); }
+.phone-e .at-sub { color: rgba(255, 235, 200, 0.5); }
+.phone-e .at-sub .save { color: #FDE68A; }
+.phone-e .atm1 { color: #FCD34D; }
+.phone-e .atm2 { color: #FDE68A; opacity: 0.85; }
+.phone-e .cm-no { background: rgba(220, 38, 38, 0.04); border-color: rgba(220, 38, 38, 0.2); }
+.phone-e .cml-no { color: rgba(220, 38, 38, 0.5); }
+.phone-e .cma-no { color: rgba(220, 38, 38, 0.5); }
+.phone-e .cm-ok {
+  background: linear-gradient(135deg, rgba(253, 230, 138, 0.28) 0%, rgba(245, 158, 11, 0.12) 100%);
+  border: 0.5px solid rgba(253, 230, 138, 0.4);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.35);
+}
+.phone-e .cm-ok::before { background: linear-gradient(90deg, transparent, rgba(255, 220, 150, 0.6), transparent); }
+.phone-e .cml-ok { color: rgba(252, 211, 77, 0.75); }
+.phone-e .cma-ok { color: #FDE68A; text-shadow: 0 0 12px rgba(252, 211, 77, 0.4); }
+.phone-e .bn {
+  background: linear-gradient(180deg, rgba(42, 24, 16, 0.4) 0%, rgba(28, 17, 8, 0.55) 100%);
+  border: 0.5px solid rgba(252, 211, 77, 0.2);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4), inset 0 0.5px 0 rgba(255, 255, 255, 0.25);
+}
+.phone-e .bn::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent); }
+.phone-e .bn::after {
+  background:
+    radial-gradient(circle at 0% 50%, rgba(252, 211, 77, 0.12), transparent 30%),
+    radial-gradient(circle at 100% 50%, rgba(245, 158, 11, 0.08), transparent 30%);
+}
+.phone-e .ni-act {
+  background: rgba(253, 230, 138, 0.16);
+  border: 0.5px solid rgba(253, 230, 138, 0.3);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25), inset 0 0.5px 0 rgba(255, 255, 255, 0.3);
+}
+.phone-e .ni-lbl-act { color: #FDE68A; }
+.phone-e .ni-lbl-off { color: rgba(255, 235, 200, 0.35); }
+
+
+/* ═══════════════════════════════════════════════
+   VARIANT F — DARK · MIDNIGHT MONO
+═══════════════════════════════════════════════ */
+.phone-f {
+  background:
+    radial-gradient(ellipse 70% 50% at 100% 0%, rgba(252, 211, 77, 0.18), transparent 55%),
+    radial-gradient(ellipse 60% 50% at 0% 100%, rgba(255, 255, 255, 0.02), transparent 55%),
+    linear-gradient(170deg, #0a0a0a 0%, #050505 50%, #000000 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 60px 120px rgba(0, 0, 0, 0.9), 0 0 200px rgba(252, 211, 77, 0.08);
+}
+.phone-f::before {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.015) 0.5px, transparent 0);
+  background-size: 3px 3px;
+}
+.phone-f .sbt { color: rgba(255,255,255,0.9); }
+.phone-f .logo { color: rgba(255, 255, 255, 0.98); }
+.phone-f .logo span { color: #FCD34D; }
+.phone-f .avt {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.04) 100%);
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5), inset 0 0.5px 0 rgba(255, 255, 255, 0.2);
+}
+.phone-f .avt::before { background: linear-gradient(180deg, rgba(255,255,255,0.3), transparent); }
+.phone-f .hl { color: rgba(255, 255, 255, 0.45); }
+.phone-f .hl::before { background: #FCD34D; box-shadow: 0 0 8px rgba(252, 211, 77, 0.8); }
+.phone-f .hero-rm { color: rgba(252, 211, 77, 0.75); }
+.phone-f .hn { color: #FDE68A; text-shadow: 0 0 40px rgba(252, 211, 77, 0.4), 0 0 80px rgba(245, 158, 11, 0.2); }
+.phone-f .hs { color: rgba(255, 255, 255, 0.4); }
+.phone-f .hs-dot { background: rgba(255, 255, 255, 0.25); }
+.phone-f .today-token {
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.22) 0%, rgba(245, 158, 11, 0.08) 100%);
+  border: 0.5px solid rgba(252, 211, 77, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), inset 0 0.5px 0 rgba(255, 255, 255, 0.2);
+}
+.phone-f .today-token::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent); }
+.phone-f .today-plus { color: #FCD34D; background: rgba(252, 211, 77, 0.18); border: 0.5px solid rgba(252, 211, 77, 0.4); }
+.phone-f .today-amt { color: #FDE68A; }
+.phone-f .today-label { color: rgba(252, 211, 77, 0.7); }
+.phone-f .sl { color: rgba(255, 255, 255, 0.3); }
+.phone-f .cd {
+  background: rgba(255, 255, 255, 0.03);
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 0 0.5px 0 rgba(255, 255, 255, 0.1);
+}
+.phone-f .cd::before { background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); }
+.phone-f .rw + .rw { border-top: 0.5px solid rgba(255,255,255,0.05); }
+.phone-f .rl { color: rgba(255,255,255,0.55); }
+.phone-f .rv { color: rgba(255, 255, 255, 0.95); }
+.phone-f .ai1 {
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.18) 0%, rgba(245, 158, 11, 0.05) 100%);
+  border: 0.5px solid rgba(245, 158, 11, 0.28);
+  box-shadow: 0 12px 32px rgba(245, 158, 11, 0.1), inset 0 0.5px 0 rgba(255, 255, 255, 0.15);
+}
+.phone-f .ai1::before { background: linear-gradient(90deg, transparent, rgba(255, 200, 100, 0.4), transparent); }
+.phone-f .ai2 {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3), inset 0 0.5px 0 rgba(255, 255, 255, 0.1);
+}
+.phone-f .ai2::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent); }
+.phone-f .aic1 {
+  background: radial-gradient(circle at 30% 25%, rgba(255,220,140,0.6), rgba(245,158,11,0.3) 60%, rgba(180,83,9,0.4) 100%);
+  box-shadow: 0 4px 12px rgba(245,158,11,0.3), inset 0 1px 2px rgba(255,255,255,0.4), inset 0 -1px 2px rgba(0,0,0,0.2);
+}
+.phone-f .aic1::before { background: rgba(255, 255, 255, 0.5); }
+.phone-f .aic2 {
+  background: radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), rgba(200,200,200,0.18) 60%, rgba(80,80,80,0.3) 100%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), inset 0 1px 2px rgba(255,255,255,0.3), inset 0 -1px 2px rgba(0,0,0,0.3);
+}
+.phone-f .aic2::before { background: rgba(255, 255, 255, 0.35); }
+.phone-f .at-title { color: rgba(255, 255, 255, 0.95); }
+.phone-f .at-sub { color: rgba(255, 255, 255, 0.45); }
+.phone-f .at-sub .save { color: #FDE68A; }
+.phone-f .atm1 { color: #FCD34D; }
+.phone-f .atm2 { color: rgba(255, 255, 255, 0.8); }
+.phone-f .cm-no { background: rgba(220, 38, 38, 0.04); border-color: rgba(220, 38, 38, 0.2); }
+.phone-f .cml-no { color: rgba(220, 38, 38, 0.5); }
+.phone-f .cma-no { color: rgba(220, 38, 38, 0.5); }
+.phone-f .cm-ok {
+  background: linear-gradient(135deg, rgba(252, 211, 77, 0.2) 0%, rgba(245, 158, 11, 0.06) 100%);
+  border: 0.5px solid rgba(252, 211, 77, 0.35);
+  box-shadow: 0 8px 24px rgba(245, 158, 11, 0.15), inset 0 0.5px 0 rgba(255, 255, 255, 0.25);
+}
+.phone-f .cm-ok::before { background: linear-gradient(90deg, transparent, rgba(255, 220, 150, 0.6), transparent); }
+.phone-f .cml-ok { color: rgba(252, 211, 77, 0.75); }
+.phone-f .cma-ok { color: #FDE68A; text-shadow: 0 0 12px rgba(252, 211, 77, 0.4); }
+.phone-f .bn {
+  background: linear-gradient(180deg, rgba(20, 20, 20, 0.5) 0%, rgba(10, 10, 10, 0.6) 100%);
+  border: 0.5px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.5), inset 0 0.5px 0 rgba(255, 255, 255, 0.15);
+}
+.phone-f .bn::before { background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); }
+.phone-f .bn::after {
+  background:
+    radial-gradient(circle at 0% 50%, rgba(252, 211, 77, 0.06), transparent 30%),
+    radial-gradient(circle at 100% 50%, rgba(255, 255, 255, 0.03), transparent 30%);
+}
+.phone-f .ni-act {
+  background: rgba(252, 211, 77, 0.12);
+  border: 0.5px solid rgba(252, 211, 77, 0.25);
+  box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2), inset 0 0.5px 0 rgba(255, 255, 255, 0.2);
+}
+.phone-f .ni-lbl-act { color: #FDE68A; }
+.phone-f .ni-lbl-off { color: rgba(255, 255, 255, 0.3); }
+
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-title">ParkSaver · 6 Design Variants</div>
+  <div class="doc-sub">
+    Pick your favorite · <strong>A, B, C</strong> for light · <strong>D, E, F</strong> for dark
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     LIGHT ROW — A · B · C
+═══════════════════════════════════════════════ -->
+<div class="row-label">
+  <span class="row-label-text">Light mode</span>
+  <span class="row-label-line"></span>
+</div>
+
+<div class="row">
+
+  <!-- ══ A ══ -->
+  <div class="variant-col">
+    <div class="variant-label">
+      <div class="variant-letter">A</div>
+      <div class="variant-name">Indigo Night</div>
+    </div>
+    <div class="phone phone-a">
+      <div class="p-content">
+        <div class="sb">
+          <span class="sbt">9:41</span>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <svg width="13" height="9"><rect x="0" y="2" width="3" height="7" rx="1" fill="#4338CA"/><rect x="4" y="1" width="3" height="8" rx="1" fill="#4338CA"/><rect x="8" y="0" width="3" height="9" rx="1" fill="#4338CA"/><rect x="12" y="0" width="2" height="9" rx="1" fill="#c4b5fd"/></svg>
+            <svg width="18" height="9"><rect x="0" y="1" width="15" height="7" rx="1.5" fill="none" stroke="#4338CA" stroke-width="1"/><rect x="16" y="2.5" width="2" height="4" rx="1" fill="#4338CA"/><rect x="1" y="2" width="12" height="5" rx="0.5" fill="#4338CA"/></svg>
+          </div>
+        </div>
+        <div class="scr">
+          <div class="hd">
+            <div class="logo">Park<span>Saver</span></div>
+            <div class="avt">E</div>
+          </div>
+          <div class="hero">
+            <div class="hl">Saved this month</div>
+            <div class="hero-num-row"><span class="hero-rm">RM</span><span class="hn">187</span></div>
+            <div class="hs"><span>22 days</span><span class="hs-dot"></span><span>Mid Valley Blvd</span></div>
+            <div class="today-token"><div class="today-plus">+</div><span class="today-amt">RM 8.50</span><span class="today-label">today</span></div>
+          </div>
+          <div class="sl">Today</div>
+          <div class="cd">
+            <div class="rw"><span class="rl">Mall</span><span class="rv">Mid Valley Blvd</span></div>
+            <div class="rw"><span class="rl">Parked</span><span class="rv">9:05 AM</span></div>
+            <div class="rw"><span class="rl">Leaving</span><span class="rv">6:30 PM</span></div>
+          </div>
+          <div class="sl">Reminders</div>
+          <div class="ai ai1">
+            <div class="aic aic1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><path d="M7 2L12 11H2L7 2Z" stroke="#fef3c7" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 6v2.5" stroke="#fef3c7" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="10" r="0.7" fill="#fef3c7"/></svg></div>
+            <div style="flex:1;"><div class="at-title">Smart Break</div><div class="at-sub">Move car · save <span class="save">RM 4.50</span></div></div>
+            <div class="atm atm1">11:50</div>
+          </div>
+          <div class="ai ai2">
+            <div class="aic aic2"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><circle cx="7" cy="7" r="5" stroke="#ede9fe" stroke-width="1.5"/><path d="M4.8 7l1.7 1.7L9.3 5.2" stroke="#ede9fe" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div style="flex:1;"><div class="at-title">2nd break · optional</div><div class="at-sub">Save <span class="save">RM 4.00</span> more</div></div>
+            <div class="atm atm2">2:50</div>
+          </div>
+          <div class="cmp">
+            <div class="cm-no"><div class="cml-no">Without app</div><div class="cma-no">RM 16.50</div></div>
+            <div class="cm-ok"><div class="cml-ok">With ParkSaver</div><div class="cma-ok">RM 8.00</div></div>
+          </div>
+        </div>
+        <div class="bn">
+          <div class="ni ni-act"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="7" width="6" height="8" rx="1.5" stroke="#92400e" stroke-width="1.5"/><rect x="9" y="1" width="6" height="14" rx="1.5" stroke="#92400e" stroke-width="1.5"/></svg><span class="ni-lbl-act">Home</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C10 2 13 4 13 7C13 10 11 12 8 14C5 12 3 10 3 7C3 4 6 2 8 2Z" stroke="#9ca3af" stroke-width="1.5"/><circle cx="8" cy="7" r="1.5" stroke="#9ca3af" stroke-width="1.5"/></svg><span class="ni-lbl-off">Malls</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#9ca3af" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">History</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2" stroke="#9ca3af" stroke-width="1.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="#9ca3af" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">Settings</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ B ══ -->
+  <div class="variant-col">
+    <div class="variant-label">
+      <div class="variant-letter">B</div>
+      <div class="variant-name">Warm Amber</div>
+    </div>
+    <div class="phone phone-b">
+      <div class="p-content">
+        <div class="sb">
+          <span class="sbt">9:41</span>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <svg width="13" height="9"><rect x="0" y="2" width="3" height="7" rx="1" fill="#78350f"/><rect x="4" y="1" width="3" height="8" rx="1" fill="#78350f"/><rect x="8" y="0" width="3" height="9" rx="1" fill="#78350f"/><rect x="12" y="0" width="2" height="9" rx="1" fill="#fcd34d"/></svg>
+            <svg width="18" height="9"><rect x="0" y="1" width="15" height="7" rx="1.5" fill="none" stroke="#78350f" stroke-width="1"/><rect x="16" y="2.5" width="2" height="4" rx="1" fill="#78350f"/><rect x="1" y="2" width="12" height="5" rx="0.5" fill="#78350f"/></svg>
+          </div>
+        </div>
+        <div class="scr">
+          <div class="hd">
+            <div class="logo">Park<span>Saver</span></div>
+            <div class="avt">E</div>
+          </div>
+          <div class="hero">
+            <div class="hl">Saved this month</div>
+            <div class="hero-num-row"><span class="hero-rm">RM</span><span class="hn">187</span></div>
+            <div class="hs"><span>22 days</span><span class="hs-dot"></span><span>Mid Valley Blvd</span></div>
+            <div class="today-token"><div class="today-plus">+</div><span class="today-amt">RM 8.50</span><span class="today-label">today</span></div>
+          </div>
+          <div class="sl">Today</div>
+          <div class="cd">
+            <div class="rw"><span class="rl">Mall</span><span class="rv">Mid Valley Blvd</span></div>
+            <div class="rw"><span class="rl">Parked</span><span class="rv">9:05 AM</span></div>
+            <div class="rw"><span class="rl">Leaving</span><span class="rv">6:30 PM</span></div>
+          </div>
+          <div class="sl">Reminders</div>
+          <div class="ai ai1">
+            <div class="aic aic1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><path d="M7 2L12 11H2L7 2Z" stroke="#fef3c7" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 6v2.5" stroke="#fef3c7" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="10" r="0.7" fill="#fef3c7"/></svg></div>
+            <div style="flex:1;"><div class="at-title">Smart Break</div><div class="at-sub">Move car · save <span class="save">RM 4.50</span></div></div>
+            <div class="atm atm1">11:50</div>
+          </div>
+          <div class="ai ai2">
+            <div class="aic aic2"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><circle cx="7" cy="7" r="5" stroke="#fef3c7" stroke-width="1.5"/><path d="M4.8 7l1.7 1.7L9.3 5.2" stroke="#fef3c7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div style="flex:1;"><div class="at-title">2nd break · optional</div><div class="at-sub">Save <span class="save">RM 4.00</span> more</div></div>
+            <div class="atm atm2">2:50</div>
+          </div>
+          <div class="cmp">
+            <div class="cm-no"><div class="cml-no">Without app</div><div class="cma-no">RM 16.50</div></div>
+            <div class="cm-ok"><div class="cml-ok">With ParkSaver</div><div class="cma-ok">RM 8.00</div></div>
+          </div>
+        </div>
+        <div class="bn">
+          <div class="ni ni-act"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="7" width="6" height="8" rx="1.5" stroke="#451a03" stroke-width="1.5"/><rect x="9" y="1" width="6" height="14" rx="1.5" stroke="#451a03" stroke-width="1.5"/></svg><span class="ni-lbl-act">Home</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C10 2 13 4 13 7C13 10 11 12 8 14C5 12 3 10 3 7C3 4 6 2 8 2Z" stroke="#a16207" stroke-width="1.5"/><circle cx="8" cy="7" r="1.5" stroke="#a16207" stroke-width="1.5"/></svg><span class="ni-lbl-off">Malls</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#a16207" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="#a16207" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">History</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2" stroke="#a16207" stroke-width="1.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="#a16207" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">Settings</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ C ══ -->
+  <div class="variant-col">
+    <div class="variant-label">
+      <div class="variant-letter">C</div>
+      <div class="variant-name">Midnight Mono</div>
+    </div>
+    <div class="phone phone-c">
+      <div class="p-content">
+        <div class="sb">
+          <span class="sbt">9:41</span>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <svg width="13" height="9"><rect x="0" y="2" width="3" height="7" rx="1" fill="#171717"/><rect x="4" y="1" width="3" height="8" rx="1" fill="#171717"/><rect x="8" y="0" width="3" height="9" rx="1" fill="#171717"/><rect x="12" y="0" width="2" height="9" rx="1" fill="#d4d4d4"/></svg>
+            <svg width="18" height="9"><rect x="0" y="1" width="15" height="7" rx="1.5" fill="none" stroke="#171717" stroke-width="1"/><rect x="16" y="2.5" width="2" height="4" rx="1" fill="#171717"/><rect x="1" y="2" width="12" height="5" rx="0.5" fill="#171717"/></svg>
+          </div>
+        </div>
+        <div class="scr">
+          <div class="hd">
+            <div class="logo">Park<span>Saver</span></div>
+            <div class="avt">E</div>
+          </div>
+          <div class="hero">
+            <div class="hl">Saved this month</div>
+            <div class="hero-num-row"><span class="hero-rm">RM</span><span class="hn">187</span></div>
+            <div class="hs"><span>22 days</span><span class="hs-dot"></span><span>Mid Valley Blvd</span></div>
+            <div class="today-token"><div class="today-plus">+</div><span class="today-amt">RM 8.50</span><span class="today-label">today</span></div>
+          </div>
+          <div class="sl">Today</div>
+          <div class="cd">
+            <div class="rw"><span class="rl">Mall</span><span class="rv">Mid Valley Blvd</span></div>
+            <div class="rw"><span class="rl">Parked</span><span class="rv">9:05 AM</span></div>
+            <div class="rw"><span class="rl">Leaving</span><span class="rv">6:30 PM</span></div>
+          </div>
+          <div class="sl">Reminders</div>
+          <div class="ai ai1">
+            <div class="aic aic1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><path d="M7 2L12 11H2L7 2Z" stroke="#fef3c7" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 6v2.5" stroke="#fef3c7" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="10" r="0.7" fill="#fef3c7"/></svg></div>
+            <div style="flex:1;"><div class="at-title">Smart Break</div><div class="at-sub">Move car · save <span class="save">RM 4.50</span></div></div>
+            <div class="atm atm1">11:50</div>
+          </div>
+          <div class="ai ai2">
+            <div class="aic aic2"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><circle cx="7" cy="7" r="5" stroke="#fafafa" stroke-width="1.5"/><path d="M4.8 7l1.7 1.7L9.3 5.2" stroke="#fafafa" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div style="flex:1;"><div class="at-title">2nd break · optional</div><div class="at-sub">Save <span class="save">RM 4.00</span> more</div></div>
+            <div class="atm atm2">2:50</div>
+          </div>
+          <div class="cmp">
+            <div class="cm-no"><div class="cml-no">Without app</div><div class="cma-no">RM 16.50</div></div>
+            <div class="cm-ok"><div class="cml-ok">With ParkSaver</div><div class="cma-ok">RM 8.00</div></div>
+          </div>
+        </div>
+        <div class="bn">
+          <div class="ni ni-act"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="7" width="6" height="8" rx="1.5" stroke="#92400e" stroke-width="1.5"/><rect x="9" y="1" width="6" height="14" rx="1.5" stroke="#92400e" stroke-width="1.5"/></svg><span class="ni-lbl-act">Home</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C10 2 13 4 13 7C13 10 11 12 8 14C5 12 3 10 3 7C3 4 6 2 8 2Z" stroke="#a3a3a3" stroke-width="1.5"/><circle cx="8" cy="7" r="1.5" stroke="#a3a3a3" stroke-width="1.5"/></svg><span class="ni-lbl-off">Malls</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#a3a3a3" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="#a3a3a3" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">History</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2" stroke="#a3a3a3" stroke-width="1.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="#a3a3a3" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">Settings</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     DARK ROW — D · E · F
+═══════════════════════════════════════════════ -->
+<div class="row-label">
+  <span class="row-label-text">Dark mode</span>
+  <span class="row-label-line"></span>
+</div>
+
+<div class="row">
+
+  <!-- ══ D ══ -->
+  <div class="variant-col">
+    <div class="variant-label">
+      <div class="variant-letter">D</div>
+      <div class="variant-name">Indigo Night</div>
+    </div>
+    <div class="phone phone-d">
+      <div class="p-content">
+        <div class="sb">
+          <span class="sbt">9:41</span>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <svg width="13" height="9"><rect x="0" y="2" width="3" height="7" rx="1" fill="rgba(255,255,255,0.95)"/><rect x="4" y="1" width="3" height="8" rx="1" fill="rgba(255,255,255,0.95)"/><rect x="8" y="0" width="3" height="9" rx="1" fill="rgba(255,255,255,0.95)"/><rect x="12" y="0" width="2" height="9" rx="1" fill="rgba(255,255,255,0.4)"/></svg>
+            <svg width="18" height="9"><rect x="0" y="1" width="15" height="7" rx="1.5" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1"/><rect x="16" y="2.5" width="2" height="4" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="1" y="2" width="12" height="5" rx="0.5" fill="rgba(255,255,255,0.95)"/></svg>
+          </div>
+        </div>
+        <div class="scr">
+          <div class="hd">
+            <div class="logo">Park<span>Saver</span></div>
+            <div class="avt">E</div>
+          </div>
+          <div class="hero">
+            <div class="hl">Saved this month</div>
+            <div class="hero-num-row"><span class="hero-rm">RM</span><span class="hn">187</span></div>
+            <div class="hs"><span>22 days</span><span class="hs-dot"></span><span>Mid Valley Blvd</span></div>
+            <div class="today-token"><div class="today-plus">+</div><span class="today-amt">RM 8.50</span><span class="today-label">today</span></div>
+          </div>
+          <div class="sl">Today</div>
+          <div class="cd">
+            <div class="rw"><span class="rl">Mall</span><span class="rv">Mid Valley Blvd</span></div>
+            <div class="rw"><span class="rl">Parked</span><span class="rv">9:05 AM</span></div>
+            <div class="rw"><span class="rl">Leaving</span><span class="rv">6:30 PM</span></div>
+          </div>
+          <div class="sl">Reminders</div>
+          <div class="ai ai1">
+            <div class="aic aic1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><path d="M7 2L12 11H2L7 2Z" stroke="#451a03" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 6v2.5" stroke="#451a03" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="10" r="0.7" fill="#451a03"/></svg></div>
+            <div style="flex:1;"><div class="at-title">Smart Break</div><div class="at-sub">Move car · save <span class="save">RM 4.50</span></div></div>
+            <div class="atm atm1">11:50</div>
+          </div>
+          <div class="ai ai2">
+            <div class="aic aic2"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><circle cx="7" cy="7" r="5" stroke="#1e1b4b" stroke-width="1.5"/><path d="M4.8 7l1.7 1.7L9.3 5.2" stroke="#1e1b4b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div style="flex:1;"><div class="at-title">2nd break · optional</div><div class="at-sub">Save <span class="save">RM 4.00</span> more</div></div>
+            <div class="atm atm2">2:50</div>
+          </div>
+          <div class="cmp">
+            <div class="cm-no"><div class="cml-no">Without app</div><div class="cma-no">RM 16.50</div></div>
+            <div class="cm-ok"><div class="cml-ok">With ParkSaver</div><div class="cma-ok">RM 8.00</div></div>
+          </div>
+        </div>
+        <div class="bn">
+          <div class="ni ni-act"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="7" width="6" height="8" rx="1.5" stroke="#FDE68A" stroke-width="1.5"/><rect x="9" y="1" width="6" height="14" rx="1.5" stroke="#FDE68A" stroke-width="1.5"/></svg><span class="ni-lbl-act">Home</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C10 2 13 4 13 7C13 10 11 12 8 14C5 12 3 10 3 7C3 4 6 2 8 2Z" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><circle cx="8" cy="7" r="1.5" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/></svg><span class="ni-lbl-off">Malls</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">History</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">Settings</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ E ══ -->
+  <div class="variant-col">
+    <div class="variant-label">
+      <div class="variant-letter">E</div>
+      <div class="variant-name">Warm Amber</div>
+    </div>
+    <div class="phone phone-e">
+      <div class="p-content">
+        <div class="sb">
+          <span class="sbt">9:41</span>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <svg width="13" height="9"><rect x="0" y="2" width="3" height="7" rx="1" fill="rgba(253,230,138,0.95)"/><rect x="4" y="1" width="3" height="8" rx="1" fill="rgba(253,230,138,0.95)"/><rect x="8" y="0" width="3" height="9" rx="1" fill="rgba(253,230,138,0.95)"/><rect x="12" y="0" width="2" height="9" rx="1" fill="rgba(253,230,138,0.4)"/></svg>
+            <svg width="18" height="9"><rect x="0" y="1" width="15" height="7" rx="1.5" fill="none" stroke="rgba(253,230,138,0.6)" stroke-width="1"/><rect x="16" y="2.5" width="2" height="4" rx="1" fill="rgba(253,230,138,0.6)"/><rect x="1" y="2" width="12" height="5" rx="0.5" fill="rgba(253,230,138,0.95)"/></svg>
+          </div>
+        </div>
+        <div class="scr">
+          <div class="hd">
+            <div class="logo">Park<span>Saver</span></div>
+            <div class="avt">E</div>
+          </div>
+          <div class="hero">
+            <div class="hl">Saved this month</div>
+            <div class="hero-num-row"><span class="hero-rm">RM</span><span class="hn">187</span></div>
+            <div class="hs"><span>22 days</span><span class="hs-dot"></span><span>Mid Valley Blvd</span></div>
+            <div class="today-token"><div class="today-plus">+</div><span class="today-amt">RM 8.50</span><span class="today-label">today</span></div>
+          </div>
+          <div class="sl">Today</div>
+          <div class="cd">
+            <div class="rw"><span class="rl">Mall</span><span class="rv">Mid Valley Blvd</span></div>
+            <div class="rw"><span class="rl">Parked</span><span class="rv">9:05 AM</span></div>
+            <div class="rw"><span class="rl">Leaving</span><span class="rv">6:30 PM</span></div>
+          </div>
+          <div class="sl">Reminders</div>
+          <div class="ai ai1">
+            <div class="aic aic1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><path d="M7 2L12 11H2L7 2Z" stroke="#451a03" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 6v2.5" stroke="#451a03" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="10" r="0.7" fill="#451a03"/></svg></div>
+            <div style="flex:1;"><div class="at-title">Smart Break</div><div class="at-sub">Move car · save <span class="save">RM 4.50</span></div></div>
+            <div class="atm atm1">11:50</div>
+          </div>
+          <div class="ai ai2">
+            <div class="aic aic2"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><circle cx="7" cy="7" r="5" stroke="#451a03" stroke-width="1.5"/><path d="M4.8 7l1.7 1.7L9.3 5.2" stroke="#451a03" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div style="flex:1;"><div class="at-title">2nd break · optional</div><div class="at-sub">Save <span class="save">RM 4.00</span> more</div></div>
+            <div class="atm atm2">2:50</div>
+          </div>
+          <div class="cmp">
+            <div class="cm-no"><div class="cml-no">Without app</div><div class="cma-no">RM 16.50</div></div>
+            <div class="cm-ok"><div class="cml-ok">With ParkSaver</div><div class="cma-ok">RM 8.00</div></div>
+          </div>
+        </div>
+        <div class="bn">
+          <div class="ni ni-act"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="7" width="6" height="8" rx="1.5" stroke="#FDE68A" stroke-width="1.5"/><rect x="9" y="1" width="6" height="14" rx="1.5" stroke="#FDE68A" stroke-width="1.5"/></svg><span class="ni-lbl-act">Home</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C10 2 13 4 13 7C13 10 11 12 8 14C5 12 3 10 3 7C3 4 6 2 8 2Z" stroke="rgba(255,235,200,0.4)" stroke-width="1.5"/><circle cx="8" cy="7" r="1.5" stroke="rgba(255,235,200,0.4)" stroke-width="1.5"/></svg><span class="ni-lbl-off">Malls</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="rgba(255,235,200,0.4)" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="rgba(255,235,200,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">History</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2" stroke="rgba(255,235,200,0.4)" stroke-width="1.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="rgba(255,235,200,0.4)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">Settings</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ F ══ -->
+  <div class="variant-col">
+    <div class="variant-label">
+      <div class="variant-letter">F</div>
+      <div class="variant-name">Midnight Mono</div>
+    </div>
+    <div class="phone phone-f">
+      <div class="p-content">
+        <div class="sb">
+          <span class="sbt">9:41</span>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <svg width="13" height="9"><rect x="0" y="2" width="3" height="7" rx="1" fill="rgba(255,255,255,0.95)"/><rect x="4" y="1" width="3" height="8" rx="1" fill="rgba(255,255,255,0.95)"/><rect x="8" y="0" width="3" height="9" rx="1" fill="rgba(255,255,255,0.95)"/><rect x="12" y="0" width="2" height="9" rx="1" fill="rgba(255,255,255,0.3)"/></svg>
+            <svg width="18" height="9"><rect x="0" y="1" width="15" height="7" rx="1.5" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="1"/><rect x="16" y="2.5" width="2" height="4" rx="1" fill="rgba(255,255,255,0.6)"/><rect x="1" y="2" width="12" height="5" rx="0.5" fill="rgba(255,255,255,0.95)"/></svg>
+          </div>
+        </div>
+        <div class="scr">
+          <div class="hd">
+            <div class="logo">Park<span>Saver</span></div>
+            <div class="avt">E</div>
+          </div>
+          <div class="hero">
+            <div class="hl">Saved this month</div>
+            <div class="hero-num-row"><span class="hero-rm">RM</span><span class="hn">187</span></div>
+            <div class="hs"><span>22 days</span><span class="hs-dot"></span><span>Mid Valley Blvd</span></div>
+            <div class="today-token"><div class="today-plus">+</div><span class="today-amt">RM 8.50</span><span class="today-label">today</span></div>
+          </div>
+          <div class="sl">Today</div>
+          <div class="cd">
+            <div class="rw"><span class="rl">Mall</span><span class="rv">Mid Valley Blvd</span></div>
+            <div class="rw"><span class="rl">Parked</span><span class="rv">9:05 AM</span></div>
+            <div class="rw"><span class="rl">Leaving</span><span class="rv">6:30 PM</span></div>
+          </div>
+          <div class="sl">Reminders</div>
+          <div class="ai ai1">
+            <div class="aic aic1"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><path d="M7 2L12 11H2L7 2Z" stroke="#451a03" stroke-width="1.5" stroke-linejoin="round"/><path d="M7 6v2.5" stroke="#451a03" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="10" r="0.7" fill="#451a03"/></svg></div>
+            <div style="flex:1;"><div class="at-title">Smart Break</div><div class="at-sub">Move car · save <span class="save">RM 4.50</span></div></div>
+            <div class="atm atm1">11:50</div>
+          </div>
+          <div class="ai ai2">
+            <div class="aic aic2"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="position:relative;z-index:1"><circle cx="7" cy="7" r="5" stroke="#171717" stroke-width="1.5"/><path d="M4.8 7l1.7 1.7L9.3 5.2" stroke="#171717" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div style="flex:1;"><div class="at-title">2nd break · optional</div><div class="at-sub">Save <span class="save">RM 4.00</span> more</div></div>
+            <div class="atm atm2">2:50</div>
+          </div>
+          <div class="cmp">
+            <div class="cm-no"><div class="cml-no">Without app</div><div class="cma-no">RM 16.50</div></div>
+            <div class="cm-ok"><div class="cml-ok">With ParkSaver</div><div class="cma-ok">RM 8.00</div></div>
+          </div>
+        </div>
+        <div class="bn">
+          <div class="ni ni-act"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="7" width="6" height="8" rx="1.5" stroke="#FDE68A" stroke-width="1.5"/><rect x="9" y="1" width="6" height="14" rx="1.5" stroke="#FDE68A" stroke-width="1.5"/></svg><span class="ni-lbl-act">Home</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 2C10 2 13 4 13 7C13 10 11 12 8 14C5 12 3 10 3 7C3 4 6 2 8 2Z" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><circle cx="8" cy="7" r="1.5" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/></svg><span class="ni-lbl-off">Malls</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><path d="M8 4v4l3 2" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">History</span></div>
+          <div class="ni"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="2" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-linecap="round"/></svg><span class="ni-lbl-off">Settings</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
